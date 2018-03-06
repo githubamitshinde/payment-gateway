@@ -1,0 +1,109 @@
+
+<div class="container-fluid py-3 border border-primary">
+  <div class="row">
+    <div class="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto">
+      <div id="pay-invoice" class="card">
+        <div class="card-body">
+          <div class="card-title">
+            <h3 class="text-center">Pay Bill</h3>
+          </div>
+          <hr>
+          <form class="container-fluid" #paymentForm="ngForm" (ngSubmit)="onSubmit(paymentForm)">
+            <div class="form-group text-center">
+              <ul class="list-inline">
+                <li class="list-inline-item">
+                  <input type="radio" value="visa" [checked]="payment.cardType === 'visa'"
+                  id="visa" (change)="onChangeCardType('visa')"
+                  name="cardType"/>
+                  <img src='http://www.inmotionhosting.com/support/images/stories/icons/ecommerce/visa.png' width="75px" height="75px"
+                  />
+                </li>
+                <li class="list-inline-item">
+                  <input type="radio" value="visa" [checked]="payment.cardType === 'master'"
+                  id="master" (change)="onChangeCardType('master')"
+                  name="cardType"/>
+                  <img src='https://www.inmotionhosting.com/support/images/stories/icons/ecommerce/mastercard.png' width="75px"
+                    height="75px" />
+                </li>
+              </ul>
+            </div>
+            <div class="form-group">
+              <label for="amount" class="control-label mb-1">Payment amount</label>
+              <input [(ngModel)]="payment.amount" #amount="ngModel" required id="amount" name="amount" type="text" class="form-control">
+            </div>
+            <div *ngIf="amount.invalid" class="alert alert-danger">
+                Amount is required.
+              </div>
+              <div class="form-group has-success">
+                <label for="name" class="control-label mb-1">Name on card</label>
+                <input [(ngModel)]="payment.name" #name="ngModel" required id="name" name="name" type="text" class="form-control name valid" data-val="true"
+                  data-val-required="Please enter the name on card" autocomplete="name" aria-required="true" aria-invalid="false"
+                  aria-describedby="name-error">
+                <span class="help-block field-validation-valid" data-valmsg-for="name" data-valmsg-replace="true"></span>
+              </div>
+              <div *ngIf="name.invalid" class="alert alert-danger">
+                Name is required.
+              </div>
+              <div class="form-group">
+                <label for="cardNumber" class="control-label mb-1">Card number</label>
+                <input [(ngModel)]="payment.cardNumber" #cardNumber="ngModel" required id="cardNumber" name="cardNumber" type="tel" class="form-control cardNumber identified visa"
+                  value="" data-val="true" data-val-required="Please enter the card number" data-val-cardNumber="Please enter a valid card number"
+                  autocomplete="cardNumber">
+                <span class="help-block" data-valmsg-for="cardNumber" data-valmsg-replace="true"></span>
+              </div>
+              <div *ngIf="cardNumber.invalid" class="alert alert-danger">
+                Card Number is required.
+              </div>
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label for="expiration" class="control-label mb-1">Expiration</label>
+                    <input [(ngModel)]="payment.expiration" #expiration="ngModel" required id="expiration" name="expiration" type="tel" class="form-control expiration"
+                      value="" data-val="true" data-val-required="Please enter the card expiration" data-val-expiration="Please enter a valid month and year"
+                      placeholder="MM / YY" autocomplete="expiration">
+                    <span class="help-block" data-valmsg-for="expiration" data-valmsg-replace="true"></span>
+                  </div>
+                  <div *ngIf="expiration.invalid" class="alert alert-danger">
+                    Expiration Date is required.
+                  </div>
+                </div>
+                <div class="col-6">
+                  <label for="securityCode" class="control-label mb-1">Security code</label>
+                  <div class="input-group">
+                    <input [(ngModel)]="payment.securityCode" #securityCode="ngModel" required id="securityCode" name="securityCode" type="tel" class="form-control cc-cvc"
+                      value="" data-val="true" data-val-required="Please enter the security code" data-val-cc-cvc="Please enter a valid security code"
+                      autocomplete="off">
+                    <div class="input-group-addon">
+                      <span class="fa fa-question-circle fa-lg" data-toggle="popover" data-container="body" data-html="true" data-title="Security Code"
+                        data-content="<div class='text-center one-card'>The 3 digit code on back of the card..<div class='visa-mc-cvc-preview'></div></div>"
+                        data-trigger="hover"></span>
+                    </div>
+                  </div>
+                  <div *ngIf="securityCode.invalid" class="alert alert-danger">
+                    Security Code is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="postalCode" class="control-label mb-1">Postal code</label>
+                <input [(ngModel)]="payment.postalCode" #postalCode="ngModel" required id="postalCode" name="postalCode" type="text" class="form-control" value=""
+                  data-val="true" data-val-required="Please enter the ZIP/Postal code" autocomplete="postal-code">
+                <span class="help-block" data-valmsg-for="postalCode" data-valmsg-replace="true"></span>
+              </div>
+              <div *ngIf="postalCode.invalid" class="alert alert-danger">
+                Postal Code is required.
+              </div>
+              <div>
+                <button id="payment-button" type="submit" class="btn btn-lg btn-info btn-block">
+                  <!-- <i class="fa fa-lock fa-lg"></i>&nbsp; -->
+                  <span id="payment-button-amount">Pay {{payment.amount | currency:'USD':true:'1.2-2'}}
+                  </span>
+                  <span id="payment-button-sending" style="display:none;">Sending…</span>
+                </button>
+              </div>
+          </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
